@@ -3,24 +3,30 @@
   <head>
     <style>
       .checkbox-list {
-        column-count: 3
+        column-count: 3;
+        list-style-type: none;
       }
     </style>
   </head>
   <h1>Spelling Bee Trainer</h1>
   <body>
-    <div>
+    <div name="known-words">
       <span>Known Words</span>
-      <ul class="checkbox-list" id="knownWords-checkboxes">
-        
-      </ul>
+      <input type="button" onclick='selectAll("knownWords-chk")' value="Select All"/>  
+      <input type="button" onclick='deselectAll("knownWords-chk")' value="Deselect All"/>
+      <ul class="checkbox-list" id="knownWords-checkboxes"></ul>
     </div>
     <br>
-    <div>
+    <div name="unknown-words">
       <span>Unknown Words</span>
-      <ul class="checkbox-list" id="unknownWords-checkboxes">
-        
-      </ul>
+      <input type="button" onclick='selectAll("unknownWords-chk")' value="Select All"/>  
+      <input type="button" onclick='deselectAll("unknownWords-chk")' value="Deselect All"/>
+      <ul class="checkbox-list" id="unknownWords-checkboxes"></ul>
+    </div>
+    <input type="button" onclick='getDefinitions()' value="Get Definitions"/>
+    <div name="definition-box">
+      
+
     </div>
   </body>
 </html>
@@ -28,13 +34,14 @@
 <script>
   var knownWords = ['naively', 'alive', 'allay', 'ally', 'anal', 'anneal', 'anvil', 'avail', 'eave', 'inlay', 'lain', 'lane', 'lava', 'lave', 'lean', 'leave', 'leaven', 'nail', 'naive', 'nana', 'nanny', 'naval', 'nave', 'navy', 'vain', 'vainly', 'vale', 'valley', 'vane', 'vanilla', 'veal', 'venal', 'venally', 'vial', 'villa', 'villain', 'villainy'].sort();
   var unknownWords = ['venially', 'alien', 'allele', 'alley', 'anally', 'annal', 'avian', 'elan', 'inane', 'inanely', 'lanai', 'leanly', 'lineal', 'lineally', 'naan', 'navel', 'valve', 'vanillin', 'venial', 'villanelle'].sort();
-  function appendList(wordList, idToAppend) {
+  function appendList(wordList, idToAppend, chkName) {
     var someDiv = document.getElementById(idToAppend);
     for (let i = 0; i < wordList.length; i++) {
       var li = document.createElement('li');
       var checkbox = document.createElement('input');
       checkbox.type = "checkbox";
       checkbox.value = wordList[i];
+      checkbox.name = chkName;
       var s = document.createElement('span');
       s.innerText =  wordList[i];
 
@@ -43,7 +50,32 @@
       someDiv.append(li);
     }
   }
-  appendList(knownWords, "knownWords-checkboxes");
-  appendList(unknownWords, "unknownWords-checkboxes");
+  appendList(knownWords, "knownWords-checkboxes", "knownWords-chk");
+  appendList(unknownWords, "unknownWords-checkboxes", "unknownWords-chk");
+
+  function selectAll (chkName) {
+    var ele=document.getElementsByName(chkName);  
+    for(var i=0; i<ele.length; i++){  
+      if(ele[i].type=='checkbox')  
+        ele[i].checked=true;  
+    }  
+  }
+  function deselectAll(chkName) {
+    var ele=document.getElementsByName(chkName);  
+    for(var i=0; i<ele.length; i++){  
+      if(ele[i].type=='checkbox')  
+        ele[i].checked=false;  
+          
+    }  
+  }
+  
+  function getDefinitions () {
+    // get all items that are checked
+
+    // run that through MW api
+
+    // generate with the words and definitions
+    
+  }
 </script>
 
