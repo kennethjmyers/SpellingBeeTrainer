@@ -1,7 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Spellingbeetrainer",
-  "$schema": "https://json.schemastore.org/chrome-manifest.json",
+  "name": "Spelling Bee Trainer",
   "version": "0.1.0",
   "description": "My Chrome Extension",
   "icons": {
@@ -10,16 +9,16 @@
     "48": "icons/icon_48.png",
     "128": "icons/icon_128.png"
   },
+  "action": {},
   "background": {
     "service_worker": "background.js"
   },
-  "action": {
-    "default_title": "Spellingbeetrainer",
-    "default_popup": "popup.html"
-  },
   "permissions": [
-    "storage"
+    "storage",
+    "scripting",
+    "activeTab"
   ],
+  "host_permissions": ["<all_urls>"],
   "content_scripts": [
     {
       "matches": [

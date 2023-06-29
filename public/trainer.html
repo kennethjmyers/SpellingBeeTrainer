@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .checkbox-list {
+        column-count: 3
+      }
+    </style>
+  </head>
+  <h1>Spelling Bee Trainer</h1>
+  <body>
+    <div>
+      <span>Known Words</span>
+      <ul class="checkbox-list" id="knownWords-checkboxes">
+        
+      </ul>
+    </div>
+    <br>
+    <div>
+      <span>Unknown Words</span>
+      <ul class="checkbox-list" id="unknownWords-checkboxes">
+        
+      </ul>
+    </div>
+  </body>
+</html>
+
+<script>
+  var knownWords = ['naively', 'alive', 'allay', 'ally', 'anal', 'anneal', 'anvil', 'avail', 'eave', 'inlay', 'lain', 'lane', 'lava', 'lave', 'lean', 'leave', 'leaven', 'nail', 'naive', 'nana', 'nanny', 'naval', 'nave', 'navy', 'vain', 'vainly', 'vale', 'valley', 'vane', 'vanilla', 'veal', 'venal', 'venally', 'vial', 'villa', 'villain', 'villainy'].sort();
+  var unknownWords = ['venially', 'alien', 'allele', 'alley', 'anally', 'annal', 'avian', 'elan', 'inane', 'inanely', 'lanai', 'leanly', 'lineal', 'lineally', 'naan', 'navel', 'valve', 'vanillin', 'venial', 'villanelle'].sort();
+  function appendList(wordList, idToAppend) {
+    var someDiv = document.getElementById(idToAppend);
+    for (let i = 0; i < wordList.length; i++) {
+      var li = document.createElement('li');
+      var checkbox = document.createElement('input');
+      checkbox.type = "checkbox";
+      checkbox.value = wordList[i];
+      var s = document.createElement('span');
+      s.innerText =  wordList[i];
+
+      li.appendChild(checkbox);
+      li.appendChild(s);
+      someDiv.append(li);
+    }
+  }
+  appendList(knownWords, "knownWords-checkboxes");
+  appendList(unknownWords, "unknownWords-checkboxes");
+</script>
+

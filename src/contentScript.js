@@ -35,7 +35,27 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.type === 'COUNT') {
     console.log(`Current count is ${request.payload.count}`);
   }
-
+  if (request.type === 'GETTABLE') {
+    console.log(`Received request to get table.`);
+    var tableData = document.querySelectorAll("ul.sb-modal-wordlist-items > li > span.check, ul.sb-modal-wordlist-items > li > span.sb-anagram");
+    console.log(tableData);
+    var knownWords = [];
+    var unknownWords = [];
+    for (let i = 0; i < tableData.length; i+=2) {
+      let j = i+1;
+      let thisCheck = tableData[i];
+      let thisWord = tableData[j].innerHTML;
+      if (thisCheck.classList.contains("checked")) {
+        knownWords.push(thisWord);
+      } else {
+        unknownWords.push(thisWord);
+      }
+    }
+    console.log("known words: ");
+    console.log(knownWords);
+    console.log("unknown words: ");
+    console.log(unknownWords);
+  }
   // Send an empty response
   // See https://github.com/mozilla/webextension-polyfill/issues/130#issuecomment-531531890
   sendResponse({});

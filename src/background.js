@@ -5,6 +5,25 @@
 // For more information on background script,
 // See https://developer.chrome.com/extensions/background_pages
 
+chrome.action.onClicked.addListener((tab) => {
+  //const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
+  console.log(tab);
+  console.log(tab.id);
+  //const response = chrome.tabs.sendMessage(tab.id, {greeting: "hello"});
+  chrome.tabs.sendMessage(
+    tab.id,
+    {
+      type: 'GETTABLE',
+    },
+    response => {
+      console.log(response);
+    }
+  );
+  // console.log(response);
+  // console.log('hello world');
+  chrome.tabs.create({ url: "trainer.html" });
+});
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.type === 'GREETINGS') {
     const message = `Hi ${
