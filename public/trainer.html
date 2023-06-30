@@ -6,10 +6,71 @@
         column-count: 3;
         list-style-type: none;
       }
+      .img-container {
+        text-align: center;
+      }
+      .api-instructions {
+        margin: 10px 0px;
+      }
+      .definition-area {
+        margin: 20px;
+        padding: 20px;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        white-space: nowrap;
+        &::after{
+          content: '';
+          display: block;
+          background: -webkit-linear-gradient(left, rgba(255, 255, 255, 1) 0%, rgb(221 12 12 / 83%) 49%, rgba(255, 255, 255, 1) 100%);
+          /* background: -webkit-linear-gradient(left, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 49%, rgba(255, 255, 255, 1) 100%); */
+        }
+          /* background-image: linear-gradient(to right, rgba(255,255,255,0), white 85%); */
+        &::-webkit-scrollbar {
+          display: none;
+        }
+
+        .definition-box {
+          width: 300px;
+          height: 150px;
+          margin: 0 15px;
+          padding: 15px 20px;
+          background: white;
+          border: 3px solid #cecbe4;
+          box-shadow: 10px 9px 5px #6b6a72;
+          border-radius: 25px;
+          display: inline-block;
+          
+          .def-header {
+            display: inline-block;
+              
+              .def-word {
+                font-size: 2em;
+                margin: 0 10px 0 0;
+              }
+
+              .def-pos {
+                font-size: 1.5em;
+                color: #6b6a72a8;
+              }
+          }
+        }
+      }
+      .definition-area::after{
+          content: '';
+          display: block;
+          background: -webkit-linear-gradient(left, rgba(255, 255, 255, 1) 0%, rgb(221 12 12 / 83%) 49%, rgba(255, 255, 255, 1) 100%);
+          /* background: -webkit-linear-gradient(left, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 49%, rgba(255, 255, 255, 1) 100%); */
+        }
     </style>
   </head>
   <h1>Spelling Bee Trainer</h1>
   <body>
+    <div name="api-instructions" class="api-instructions">
+      <span>Create an account at Merriam-Webster's and get an api key for "Merriam-Webster's Collegiate® Dictionary with Audio". Place the API key below:</span>
+      <br>
+      <input type="password">
+      <br>
+    </div>
     <div name="known-words">
       <span>Known Words</span>
       <input type="button" onclick='selectAll("knownWords-chk")' value="Select All"/>  
@@ -23,11 +84,37 @@
       <input type="button" onclick='deselectAll("unknownWords-chk")' value="Deselect All"/>
       <ul class="checkbox-list" id="unknownWords-checkboxes"></ul>
     </div>
+    
     <input type="button" onclick='getDefinitions()' value="Get Definitions"/>
-    <div name="definition-box">
-      
+    
+    <div name="definition-area" class="definition-area">
+      <div class="definition-box">
+        <div class="def-header">
+          <span class="def-word">alive</span>
+          <span class="def-pos">adjective</span>
+        </div>
+      </div>
+      <div class="definition-box">
+        <div class="def-header">
+          <span class="def-word"></span>
+          <span class="def-pos"></span>
+        </div>
+
+      </div>
+      <div class="definition-box">
+        <div class="def-header">
+          <span class="def-word"></span>
+          <span class="def-pos"></span>
+        </div>
+
+      </div>
 
     </div>
+
+    <!-- <div class="img-container">
+      Powered by Merriam-Webster's Collegiate® Dictionary with Audio 
+      <img src="icons/MWLogo_LightBG_120x120_2x.png" style="width:50px;height:50px;vertical-align:middle;">
+    </div> -->
   </body>
 </html>
 
@@ -42,6 +129,7 @@
       checkbox.type = "checkbox";
       checkbox.value = wordList[i];
       checkbox.name = chkName;
+      if (i < 3) checkbox.checked=true;
       var s = document.createElement('span');
       s.innerText =  wordList[i];
 
@@ -69,13 +157,31 @@
     }  
   }
   
+  async function getDictResults(checkBoxValues) {
+    var dictResults = []
+    console.log(checkBoxValues.entries().next())
+    for (const word of checkBoxValues) {
+      console.log(word)
+      var baseURL = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
+      var mwResponse = await fetch(baseURL)
+      var mwJson = await mwResponse.json()
+      dictResults.push(mwJson)
+    }
+    console.log(dictResults)
+    return dictResults
+  }
+
   function getDefinitions () {
     // get all items that are checked
-
-    // run that through MW api
-
-    // generate with the words and definitions
+    var checkedBoxes = document.querySelectorAll('input:checked');
+    var checkBoxValues = []
+    checkedBoxes.forEach(x => checkBoxValues.push(x.value))
+    console.log("Checked Boxes: " + checkBoxValues)
+    // run that through dictionary api
+    var dictResults = getDictResults(checkBoxValues)
     
+    // generate with the words and definitions
+
   }
 </script>
 
