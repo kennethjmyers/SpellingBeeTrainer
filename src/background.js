@@ -16,15 +16,20 @@ chrome.action.onClicked.addListener((tab) => {
       type: 'GETTABLE',
     },
     response => {
+      console.log('here for response');
       console.log(response);
+      if (response.success === true) {
+        chrome.storage.local.set({ spWordsData: response }).then(() => {
+          console.log("Value is set");
+        });
+      } 
     }
   );
-  // console.log(response);
-  // console.log('hello world');
   chrome.tabs.create({ url: "trainer.html" });
 });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  console.log("The request type is " + request.type);
   if (request.type === 'GREETINGS') {
     const message = `Hi ${
       sender.tab ? 'Con' : 'Pop'

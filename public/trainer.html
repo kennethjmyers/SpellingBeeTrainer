@@ -109,19 +109,19 @@
     </div>
     <div name="known-words">
       <span>Known Words</span>
-      <input type="button" onclick='selectAll("knownWords-chk")' value="Select All"/>  
-      <input type="button" onclick='deselectAll("knownWords-chk")' value="Deselect All"/>
+      <input type="button" id="knownWords-selectAll" value="Select All"/>  
+      <input type="button" id="knownWords-deselectAll" value="Deselect All"/>
       <ul class="checkbox-list" id="knownWords-checkboxes"></ul>
     </div>
     <br>
     <div name="unknown-words">
       <span>Unknown Words</span>
-      <input type="button" onclick='selectAll("unknownWords-chk")' value="Select All"/>  
-      <input type="button" onclick='deselectAll("unknownWords-chk")' value="Deselect All"/>
+      <input type="button" id="unknownWords-selectAll" value="Select All"/>  
+      <input type="button" id="unknownWords-deselectAll" value="Deselect All"/>
       <ul class="checkbox-list" id="unknownWords-checkboxes"></ul>
     </div>
     <hr>
-    <input type="button" onclick='getDefinitions()' value="Get Definitions"/>
+    <input type="button" id="getDefinitions-button" value="Get Definitions"/>
     
     <div name="definition-area" class="definition-area">
       <div class="def-scroll">
@@ -267,154 +267,6 @@
       Powered by Merriam-Webster's Collegiate® Dictionary with Audio 
       <img src="icons/MWLogo_LightBG_120x120_2x.png" style="width:50px;height:50px;vertical-align:middle;">
     </div> -->
+    <script type="text/javascript" src="./trainer.js"></script>
   </body>
 </html>
-
-<script>
-  var knownWords = ['naively', 'alive', 'allay', 'ally', 'anal', 'anneal', 'anvil', 'avail', 'eave', 'inlay', 'lain', 'lane', 'lava', 'lave', 'lean', 'leave', 'leaven', 'nail', 'naive', 'nana', 'nanny', 'naval', 'nave', 'navy', 'vain', 'vainly', 'vale', 'valley', 'vane', 'vanilla', 'veal', 'venal', 'venally', 'vial', 'villa', 'villain', 'villainy'].sort();
-  var unknownWords = ['venially', 'alien', 'allele', 'alley', 'anally', 'annal', 'avian', 'elan', 'inane', 'inanely', 'lanai', 'leanly', 'lineal', 'lineally', 'naan', 'navel', 'valve', 'vanillin', 'venial', 'villanelle'].sort();
-  function appendList(wordList, idToAppend, chkName) {
-    var someDiv = document.getElementById(idToAppend);
-    for (let i = 0; i < wordList.length; i++) {
-      var li = document.createElement('li');
-      var checkbox = document.createElement('input');
-      checkbox.type = "checkbox";
-      checkbox.value = wordList[i];
-      checkbox.name = chkName;
-      if (i < 3) checkbox.checked=true;
-      var s = document.createElement('span');
-      s.innerText =  wordList[i];
-
-      li.appendChild(checkbox);
-      li.appendChild(s);
-      someDiv.append(li);
-    }
-  }
-  appendList(knownWords, "knownWords-checkboxes", "knownWords-chk");
-  appendList(unknownWords, "unknownWords-checkboxes", "unknownWords-chk");
-
-  function selectAll (chkName) {
-    var ele=document.getElementsByName(chkName);  
-    for(var i=0; i<ele.length; i++){  
-      if(ele[i].type=='checkbox')  
-        ele[i].checked=true;  
-    }  
-  }
-  function deselectAll(chkName) {
-    var ele=document.getElementsByName(chkName);  
-    for(var i=0; i<ele.length; i++){  
-      if(ele[i].type=='checkbox')  
-        ele[i].checked=false;  
-          
-    }  
-  }
-  
-  async function getDictResults(checkBoxValues) {
-    var dictResults = []
-    console.log(checkBoxValues.entries().next())
-    for (const word of checkBoxValues) {
-      console.log(word)
-      var baseURL = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
-      var mwResponse = await fetch(baseURL)
-      var mwJson = await mwResponse.json()
-      dictResults.push(mwJson)
-    }
-    return dictResults
-  }
-
-  async function getDefinitions () {
-    // clear current definitions
-    clearDefinitionCards();
-
-    // get all items that are checked
-    var checkedBoxes = document.querySelectorAll('input:checked');
-    var checkBoxValues = [];
-    checkedBoxes.forEach(x => checkBoxValues.push(x.value));
-    console.log("Checked Boxes: " + checkBoxValues);
-    // run that through dictionary api
-    var dictResults = await getDictResults(checkBoxValues);
-    console.log("all dict results")
-    console.log(dictResults)
-
-    // generate cards for the words and definitions
-    for await (const wordJson of dictResults) {
-      console.log(wordJson);
-      makeDefinitionCard(wordJson);
-      
-    }
-  }
-
-  function clearDefinitionCards () {
-    /**
-     * Finds all of the defintion-box divs and removes them from the document
-     */
-    var defBoxes = document.querySelectorAll('.definition-box');
-    defBoxes.forEach((box) => box.remove());
-  }
-
-  function makeDefinitionCard(wordJson) {
-    try {
-      var word = wordJson[0]['word'];
-    }
-    catch (exception) {
-      // improve handling later
-      return;
-    }
-    let meanings = wordJson[0]['meanings'][0];  // get only first meaning, could be multiple
-    let definitions = meanings['definitions'];
-    let pos = meanings['partOfSpeech'];
-    let synonyms = meanings['synonyms'];
-    let antonyms = meanings['antonyms'];
-
-    console.log(word, meanings, definitions, synonyms, antonyms);
-    
-    var synString = synonyms.join(', ');
-    var antString  = antonyms.join(', ');
-
-    // create new div to add
-    var defDiv = document.createElement('div');
-    defDiv.classList.add('definition-box');
-
-    // determine if this is the first box and add additional class
-    var defScroll = document.querySelector("div.def-scroll")
-    if (defScroll.childElementCount === 0) defDiv.classList.add('first-def-box');
-    
-    // could have made this more robust but I didn't plan to include more than the first 3 definitions
-    var def1 = getDefinitionFromList(definitions, 0)
-    var def2 = getDefinitionFromList(definitions, 1)
-    var def3 = getDefinitionFromList(definitions, 2)
-
-    // add content to div
-    defDiv.innerHTML = `
-           <div class="def-header">
-            <span class="def-word">${word}</span>
-            <span class="def-pos">${pos}</span>
-          </div>
-          <div class="definitions">
-            <span>${def1}</span>
-            <span>${def2}</span>
-            <span>${def3}</span>
-          </div>
-          <br>
-          <div class="synonyms">
-            <span>Synonyms: ${synString}</span>
-          </div>
-          <br>
-          <div class="antonyms">
-            <span>Antonyms: ${antString}</span>
-          </div>
-    `
-    
-    // append to the scroll window
-    defScroll.appendChild( defDiv );
-  }
-
-  function getDefinitionFromList (definitionList, index) {
-    try {
-      return `${index+1}. ${definitionList[index]['definition']}`;
-    } catch (exception) {
-      return '';
-    }
-  }
-
-</script>

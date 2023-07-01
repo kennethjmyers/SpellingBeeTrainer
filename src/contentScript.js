@@ -32,9 +32,6 @@ chrome.runtime.sendMessage(
 
 // Listen for message
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.type === 'COUNT') {
-    console.log(`Current count is ${request.payload.count}`);
-  }
   if (request.type === 'GETTABLE') {
     console.log(`Received request to get table.`);
     var tableData = document.querySelectorAll("ul.sb-modal-wordlist-items > li > span.check, ul.sb-modal-wordlist-items > li > span.sb-anagram");
@@ -55,6 +52,23 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log(knownWords);
     console.log("unknown words: ");
     console.log(unknownWords);
+
+    if (knownWords.length>0 || unknownWords.length>0) {
+      sendResponse({
+        type: 'sbWords',
+        knownWords: knownWords,
+        unknownWords: unknownWords,
+        success: true
+      });
+    } else {
+      sendResponse({
+        type: 'sbWords',
+        knownWords: knownWords,
+        unknownWords: unknownWords,
+        success: false
+      });
+    }
+    return true;
   }
   // Send an empty response
   // See https://github.com/mozilla/webextension-polyfill/issues/130#issuecomment-531531890

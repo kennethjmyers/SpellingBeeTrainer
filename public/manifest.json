@@ -16,7 +16,8 @@
   "permissions": [
     "storage",
     "scripting",
-    "activeTab"
+    "activeTab",
+    "notifications"
   ],
   "host_permissions": ["<all_urls>"],
   "content_scripts": [
@@ -26,7 +27,8 @@
       ],
       "run_at": "document_idle",
       "js": [
-        "contentScript.js"
+        "contentScript.js",
+        "trainer.js"
       ]
     }
   ]
