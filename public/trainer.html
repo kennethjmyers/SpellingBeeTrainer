@@ -51,7 +51,7 @@
 
           .definition-box {
             width: 300px;
-            height: 150px;
+            height: 250px;
             margin: 20px 15px;
             padding: 15px 20px;
             background: white;
@@ -73,6 +73,11 @@
                   color: #6b6a72a8;
                 }
             }
+            .definitions > span, .synonyms > span, .antonyms > span {
+              display:block;
+              width: 300px;
+              white-space: normal;
+            }
           }
           .first-def-box {
             margin-left: calc(50% - 150px);
@@ -90,10 +95,11 @@
   <h1>Spelling Bee Trainer</h1>
   <body>
     <div name="api-instructions" class="api-instructions">
-      <span>Create an account at Merriam-Webster's and get an api key for "Merriam-Webster's Collegiate® Dictionary with Audio". Place the API key below:</span>
+      <span>Select words that you would like to study and then click the button that says "Get Definitions".</span>
       <br>
-      <input type="password">
       <br>
+      <span><b>NOTE: This was built as a chrome extension and will only render properly in Chrome.</b></span>
+      <hr>
     </div>
     <div name="known-words">
       <span>Known Words</span>
@@ -108,7 +114,7 @@
       <input type="button" onclick='deselectAll("unknownWords-chk")' value="Deselect All"/>
       <ul class="checkbox-list" id="unknownWords-checkboxes"></ul>
     </div>
-    
+    <hr>
     <input type="button" onclick='getDefinitions()' value="Get Definitions"/>
     
     <div name="definition-area" class="definition-area">
@@ -118,23 +124,75 @@
             <span class="def-word">alive</span>
             <span class="def-pos">adjective</span>
           </div>
-        </div>
-        <div class="definition-box">
-          <div class="def-header">
-            <span class="def-word"></span>
-            <span class="def-pos"></span>
+          <div class="definitions">
+            <span>1. Having life; living; not dead</span>
+            <span>2. In a state of action; in force or operation; existent</span>
+            <span>3. Busy with activity of many living beings; swarming; thronged; busy.</span>
+          </div>
+          <br>
+          <div class="synonyms">
+            <span>Synonyms: alive and kicking, extant, vital, existing, extant, ever, in the world, frisky, peppy, zestful</span>
+          </div>
+          <br>
+          <div class="antonyms">
+            <span>Antonyms: dead</span>
           </div>
         </div>
         <div class="definition-box">
           <div class="def-header">
-            <span class="def-word"></span>
-            <span class="def-pos"></span>
+            <span class="def-word">alive</span>
+            <span class="def-pos">adjective</span>
+          </div>
+          <div class="definitions">
+            <span>1. Having life; living; not dead</span>
+            <span>2. In a state of action; in force or operation; existent</span>
+            <span>3. Busy with activity of many living beings; swarming; thronged; busy.</span>
+          </div>
+          <br>
+          <div class="synonyms">
+            <span>Synonyms: alive and kicking, extant, vital, existing, extant, ever, in the world, frisky, peppy, zestful</span>
+          </div>
+          <br>
+          <div class="antonyms">
+            <span>Antonyms: dead</span>
+          </div>
+        </div>
+        <div class="definition-box">
+          <div class="def-header">
+            <span class="def-word">alive</span>
+            <span class="def-pos">adjective</span>
+          </div>
+          <div class="definitions">
+            <span>1. Having life; living; not dead</span>
+            <span>2. In a state of action; in force or operation; existent</span>
+            <span>3. Busy with activity of many living beings; swarming; thronged; busy.</span>
+          </div>
+          <br>
+          <div class="synonyms">
+            <span>Synonyms: alive and kicking, extant, vital, existing, extant, ever, in the world, frisky, peppy, zestful</span>
+          </div>
+          <br>
+          <div class="antonyms">
+            <span>Antonyms: dead</span>
           </div>
         </div>  
         <div class="definition-box">
           <div class="def-header">
-            <span class="def-word"></span>
-            <span class="def-pos"></span>
+            <span class="def-word">alive</span>
+            <span class="def-pos">adjective</span>
+          </div>
+          <div class="definitions">
+            <span>1. Having life; living; not dead</span>
+            <span>2. In a state of action; in force or operation; existent</span>
+            <span>3. Busy with activity of many living beings; swarming; thronged; busy.</span>
+          </div>
+          <br>
+          <div class="synonyms">
+            <span>Synonyms: alive and kicking, extant, vital, existing, extant, ever, in the world, frisky, peppy, zestful</span>
+          </div>
+          <br>
+          <div class="antonyms">
+            <span>Antonyms: dead</span>
           </div>
         </div>  
       </div>
