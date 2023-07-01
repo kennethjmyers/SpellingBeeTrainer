@@ -314,12 +314,13 @@
     console.log("Checked Boxes: " + checkBoxValues);
     // run that through dictionary api
     var dictResults = await getDictResults(checkBoxValues);
+    console.log("all dict results")
     console.log(dictResults)
 
     // generate cards for the words and definitions
     for await (const wordJson of dictResults) {
       console.log(wordJson);
-      makeDefinitionCard(wordJson)
+      makeDefinitionCard(wordJson);
       
     }
   }
@@ -333,7 +334,13 @@
   }
 
   function makeDefinitionCard(wordJson) {
-    let word = wordJson[0]['word'];
+    try {
+      var word = wordJson[0]['word'];
+    }
+    catch (exception) {
+      // improve handling later
+      return;
+    }
     let meanings = wordJson[0]['meanings'][0];  // get only first meaning, could be multiple
     let definitions = meanings['definitions'];
     let pos = meanings['partOfSpeech'];
@@ -354,9 +361,9 @@
     if (defScroll.childElementCount === 0) defDiv.classList.add('first-def-box');
     
     // could have made this more robust but I didn't plan to include more than the first 3 definitions
-    var def1 = getDefinition(definitions, 0)
-    var def2 = getDefinition(definitions, 1)
-    var def3 = getDefinition(definitions, 2)
+    var def1 = getDefinitionFromList(definitions, 0)
+    var def2 = getDefinitionFromList(definitions, 1)
+    var def3 = getDefinitionFromList(definitions, 2)
 
     // add content to div
     defDiv.innerHTML = `
@@ -383,7 +390,7 @@
     defScroll.appendChild( defDiv );
   }
 
-  function getDefinition (definitionList, index) {
+  function getDefinitionFromList (definitionList, index) {
     try {
       return `${index+1}. ${definitionList[index]['definition']}`;
     } catch (exception) {
