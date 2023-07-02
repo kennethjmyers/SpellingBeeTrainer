@@ -7,6 +7,15 @@
     <style>
       * {
         font-family: 'Gelasio', serif;
+        font-size: 16px;
+      }
+
+      html {
+        background-color: rgb(247, 218, 33);
+      }
+
+      h1 {
+        font-size: 40px;
       }
 
       .checkbox-list {
@@ -37,11 +46,11 @@
             pointer-events: none;
             display: block;
             background: -webkit-linear-gradient(left,
-             rgba(255, 255, 255, .6) 0%, 
+             rgba(247, 218, 33, .6) 0%, 
              rgb(221 12 12 / 0%) 24%,
              rgb(221 12 12 / 0%) 49%,
              rgb(221 12 12 / 0%) 74%,
-              rgba(255, 255, 255, .6) 100%);
+              rgba(247, 218, 33, .6) 100%);
             width: 100%;
             /* background: -webkit-linear-gradient(left, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 49%, rgba(255, 255, 255, 1) 100%); */
           }
@@ -76,12 +85,12 @@
               display: inline-block;
                 
                 .def-word {
-                  font-size: 2em;
+                  font-size: 32px;
                   margin: 0 10px 0 0;
                 }
 
                 .def-pos {
-                  font-size: 1.5em;
+                  font-size: 24px;
                   color: #6b6a72a8;
                 }
             }
@@ -92,10 +101,27 @@
             }
           }
           .first-def-box {
-            margin-left: calc(50% - 150px);
+            margin-left: calc(40% - 150px);
+          }
+          .last-def-box {
+            margin-right: calc(50% - 150px);
           }
         }
       }
+
+      #footer {
+        text-align: center;
+      }
+
+      #footer > p {
+        margin: 0 auto;
+        display: block;
+        font-size: 11px;
+      }
+      #footer > p > a {
+        font-size: 11px;
+      }
+      
     </style>
   </head>
   <h1>Spelling Bee Trainer</h1>
@@ -239,7 +265,7 @@
            <span>Antonyms: collateral</span>
          </div>
         </div>
-        <div class="definition-box">
+        <div class="definition-box last-def-box">
           <div class="def-header">
            <span class="def-word">villanelle</span>
            <span class="def-pos">noun</span>
@@ -269,4 +295,11 @@
     </div> -->
     <script type="text/javascript" src="./trainer.js"></script>
   </body>
+  <footer>
+    <div id="footer">
+      <p>&copy; 2023</p>
+      <p>Powered by <a href="https://github.com/meetDeveloper/freeDictionaryAPI">freeDictionaryAPI</a></p>
+      <p>Bee emoji designed by <a href="https://openmoji.org/">OpenMoji</a> - the open-source emoji and icon project. License: <a href="https://creativecommons.org/licenses/by-sa/4.0/#">CC BY-SA 4.0</a></p>
+    </div>
+    </footer>
 </html>
