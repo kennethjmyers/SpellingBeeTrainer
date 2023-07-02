@@ -17,10 +17,12 @@ A Chrome Extension that helps you learn the words you miss in the NYT Spelling B
 2. Reveal the answers 
 3. With the answers shown click on the extension button. This will open a new tab with the application.
 
+<p align="center">
 <img src="./images/nyt-game-example.png" style="display: block;
   margin-left: auto;
   margin-right: auto;
   width: 60%;">
+</p>
 
 ## Contribution
 
