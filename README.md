@@ -32,6 +32,7 @@ Suggestions and pull requests are welcomed!.
 
 This project was bootstrapped with [Chrome Extension CLI](https://github.com/dutiyesh/chrome-extension-cli)
 
+Powered by [freeDictionaryAPI](https://github.com/meetDeveloper/freeDictionaryAPI)
 
 Bee Emoji designed by [OpenMoji](https://openmoji.org/) – the open-source emoji and icon project. License: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/#)
 
