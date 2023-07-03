@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Spelling Bee Trainer",
   "version": "0.1.0",
-  "description": "My Chrome Extension",
+  "description": "A Chrome Extension that helps you learn the words you miss in the NYT Spelling Bee game.",
   "icons": {
     "16": "icons/icon_16.png",
     "32": "icons/icon_32.png",
@@ -14,16 +14,12 @@
     "service_worker": "background.js"
   },
   "permissions": [
-    "storage",
-    "scripting",
-    "activeTab",
-    "notifications"
+    "storage"
   ],
-  "host_permissions": ["<all_urls>"],
   "content_scripts": [
     {
       "matches": [
-        "<all_urls>"
+        "https://*.nytimes.com/puzzles/spelling-bee/*"
       ],
       "run_at": "document_idle",
       "js": [
