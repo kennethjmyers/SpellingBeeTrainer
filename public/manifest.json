@@ -27,8 +27,7 @@
       ],
       "run_at": "document_idle",
       "js": [
-        "contentScript.js",
-        "trainer.js"
+        "contentScript.js"
       ]
     }
   ]

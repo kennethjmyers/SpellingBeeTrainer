@@ -40,9 +40,29 @@ async function getDictResults(checkBoxValues) {
     var baseURL = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
     var mwResponse = await fetch(baseURL)
     var mwJson = await mwResponse.json()
+    if (Array.isArray(mwJson)) mwJson = mwJson[0];  // take only first result. if error this is an object
     dictResults.push(mwJson)
   }
   return dictResults
+}
+
+function getErrorWords (words, dictResults) {
+  var newDictResults = []
+  var errorWords = []
+  for (const [index, word] of words.entries()) {
+    var thisJson = dictResults[index]
+    if (thisJson.hasOwnProperty("word")) {
+      newDictResults.push(thisJson)
+    } else {
+      errorWords.push(word)
+    }
+  }
+  return [newDictResults, errorWords];
+}
+
+function placeErrorWordsInDoc (errorWords) {
+  var errorP = document.querySelector("#words-not-found");
+  errorP.innerHTML = `Words not found by API: ${errorWords.join(", ")}`
 }
 
 async function getDefinitions () {
@@ -58,6 +78,12 @@ async function getDefinitions () {
   var dictResults = await getDictResults(checkBoxValues);
   console.log("all dict results")
   console.log(dictResults)
+
+  // identify error words and handle those
+  console.log('checking error words');
+  var [dictResults, errorWords] = getErrorWords(checkBoxValues, dictResults);
+  console.log("error words: " + errorWords);
+  placeErrorWordsInDoc(errorWords);
 
   // generate cards for the words and definitions
   for await (const wordJson of dictResults) {
@@ -80,13 +106,13 @@ function clearDefinitionCards () {
 
 function makeDefinitionCard(wordJson) {
   try {
-    var word = wordJson[0]['word'];
+    var word = wordJson['word'];
   }
   catch (exception) {
     // improve handling later
     return;
   }
-  let meanings = wordJson[0]['meanings'][0];  // get only first meaning, could be multiple
+  let meanings = wordJson['meanings'][0];  // get only first meaning, could be multiple
   let definitions = meanings['definitions'];
   let pos = meanings['partOfSpeech'];
   let synonyms = meanings['synonyms'];
